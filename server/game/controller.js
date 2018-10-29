@@ -12,7 +12,7 @@ app.get('/users/:id/friends', (req,res) => {
     const user = game.users.find(c => c.id === parseInt(req.params.id));
     if (!user) return res.status(404).send('404: The user with the given id was not found.');
 
-    for (i=0; i < user.friends.length;i++){
+    for (let i=0; i < user.friends.length;i++){
         console.log(req.params.id + "friends are:")
         const friend = game.users.find(c => c.id === parseInt(user.friends[i]));
         console.log(i + "  " + friend.name)
