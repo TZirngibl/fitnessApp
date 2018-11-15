@@ -7,7 +7,6 @@ app.use(express.json());
 let game = new Game();
 let workouts = 1;
 
-
 app.get('/users/:id/friends', (req,res) => {
     const user = game.users.find(c => c.id === parseInt(req.params.id));
     if (!user) return res.status(404).send('404: The user with the given id was not found.');
@@ -46,19 +45,14 @@ app.post('/users/:id/addWorkout', (req,res) => {
     const { error } = validateWorkout(req.body);
     if (error) return res.status(400).send(error.details[0].message)
 
-    const workout = {
-        id: workouts++,
-        name: `${req.body.name}`,
-        reps: `${req.body.reps}`,
-        weight: `${req.body.weight}`
-    }
+    let workout = new Workout(workouts++, req.body.name, req.body.reps, req.body.weight)
     user.completedExercises.push(workout);
-    res.send(workout.id, workout.name, workout.reps, workout.weight);
+    res.send(workout);
 })
 
 //ROOT OF SERVER
 app.get('/', (req,res) => {
-    res.send('root of server');
+    res.send(game.users)
 })
 
 //GET ALL USERS AND WORKOUTS
@@ -80,15 +74,11 @@ app.post('/users', (req,res) => {
     const { error } = validateUser(req.body);
     if (error) return res.status(400).send(error.details[0].message)
 
-    const user = {
-        id: game.users.length+1,
-        name: req.body.name,
-        friends: [],
-        completedExercises: []
-    }
+    let user = new User(req.body.name, game.users.length)
+
     game.users.push(user);
     res.send(user);
-})
+});
 
 //UPDATE
 app.put('/users/:id', (req,res) => {
@@ -127,9 +117,10 @@ function validateWorkout(workout) {
 }
 function validateUser(user) {
     const schema = {
-        name: Joi.string().min(3).required()
+        name: Joi.string().required()
     };
     return Joi.validate(user, schema);
 }
+
 
 module.exports = app;
