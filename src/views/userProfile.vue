@@ -1,6 +1,6 @@
 <template>
 <div>
-    <h1>{{this.state.users[userId()].name+"'s"}} Profile</h1>
+    <h1>{{this.state.users[userId()].name+"'s"}} Profile  USERPROFILE PAGE</h1>
     <div class="row">
 <div class="col-md-4">
             <div class="card" >
@@ -20,18 +20,6 @@
                     Workout Reps<input class="form-control" type="number" placeholder="Enter Workout Reps" id="workoutReps">
                     Workout Weight<input class="form-control" type="number" placeholder="Enter Workout Weight" id="workoutWeight"><br>
                     <a @click.prevent="addWorkout__" class="btn btn-primary">Add Workout</a>
-                </div>
-            </div>
-        </div>
-                <div class="col-md-4">
-             <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">Your Completed Workouts</h5>
-                    <ul class="list-group">
-                        <li class="list-group-item" v-for= "x in state.completedExercises" :key="x.name"><b>{{x.name}}</b>
-                                                                                                         <br> {{x.reps}} Reps
-                                                                                                         <br> {{x.weight}} Lbs</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -63,7 +51,6 @@ export default {
     },
     created(){
         setInterval(this.refresh, 500);
-        
     },
     methods: {
         refresh(){
@@ -78,21 +65,10 @@ export default {
                 //.then( ()=> api.GetMyExercises(api.userid).then(x=> this.completedExercises = x) )
                }  
             },  
-        addWorkout__(){
-            let id = api.GetUserId()
-            let wName = document.getElementById("workoutName").value;
-            let wReps = document.getElementById("workoutReps").value;
-            let wWeight = document.getElementById("workoutWeight").value;
-            api.addWorkout(id,wName,wReps,wWeight)
-        },
         getExercises(id){
             let x = api.GetMyExercises(id)
             console.log(x)
             return x
-        },
-        removeFriend(id){
-            api.removeFriend(api.userId,id)
-            console.log(api.userId + " removed " + id)
         },
         userId: ()=>  api.GetUserId()
     }

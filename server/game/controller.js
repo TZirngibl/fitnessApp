@@ -7,6 +7,19 @@ app.use(express.json());
 let game = new Game();
 let workouts = 1;
 
+
+//remove a friend
+app.delete('/users/:id/removeFriend/:id1', (req,res) => {
+    const user = game.users.find(c => c.id === parseInt(req.params.id));
+    if (!user) return res.status(404).send('404: The user with the given id was not found.');
+    const user1 = game.users.find(c => c.id === parseInt(req.params.id1));
+    if (!user1) return res.status(404).send('404: The user1 with the given id was not found.');
+    var index = user.friends.findIndex(i => i == user1.id)
+    user.friends.splice(index , 1)
+    res.send(user.id + " removed friend with id " +index);
+})
+
+//Return all of a users friends
 app.get('/users/:id/friends', (req,res) => {
     const user = game.users.find(c => c.id === parseInt(req.params.id));
     if (!user) return res.status(404).send('404: The user with the given id was not found.');
@@ -21,7 +34,7 @@ app.get('/users/:id/friends', (req,res) => {
 
 //ADD FRIEND, 
 //USER DOING THE ADD IS ID.
-// ND USER TO BE ADDED IS FRIENDSID 
+//USER TO BE ADDED IS FRIENDSID 
 app.post('/users/:id/addFriend/:friendsId', (req,res) => {
     const user = game.users.find(c => c.id === parseInt(req.params.id));
     if (!user) return res.status(404).send('404: The user with the given id was not found.');

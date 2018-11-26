@@ -8,11 +8,27 @@ export function GetState(){
 }
 
 export function GetMyExercises(id){
-    return(fetch(api_root + "/users/"+id+"/completedExercises"))
+    return(myFetch(api_root + "/users/"+id+"/completedExercises"))
+}
+
+export function GetFriends(id){
+    return(myFetch(api_root + "/users/"+id+"/friends"))
 }
 
 export function GetUserId(){
     return userId;
+}
+
+export function addFriend(id1,id2){  
+    return fetch(api_root + "/users/"+id1+"/addFriend/"+id2, {method: "post"})
+}
+
+export function removeFriend(id,id1){
+    return fetch(api_root + "/users/"+id+"/removeFriend/"+id1, {method: "delete"})
+}
+
+export function viewProfile(id){
+    return myFetch(api_root + "/users/" +id);
 }
 
 export function addWorkout(id,name,reps,weight){
