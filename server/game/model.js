@@ -3,30 +3,25 @@ class Game{
     constructor(){
         this.users = [];
     }
-}
-class User{
-    constructor(name, id){
-        this.id = id;
-        //this.fbid = fbid;
-        this.name = name;
-        this.friends = [];
-        this.completedExercises = [];
-    }
-    /*login(name, fbid, access_token){
+    login(name, fbid, access_token){
         let user = this.users.find(x=> x.fbid == fbid)
         if(!user){
-            user = new User(name, )
-        }
-        const user = {
-            id: game.users.length,
-            name: req.body.name,
-            friends: [],
-            completedExercises: []
+            user = new User(name, this.users.length, fbid);
+            this.users.push(user);
         }
         user.access_token = access_token;
-        this.users.push(user);
         return user;
-    }*/
+    }
+}
+class User{
+    constructor(name, id, fbid){
+        this.id = id;
+        this.name = name;
+        this.fbid = fbid;
+        this.friends = [];
+        this.completedExercises = [];
+        this.bmiHistory = [];
+    }
 }
 class Workout{
     constructor(id, name, reps, weight){

@@ -12,13 +12,13 @@
                 </div>
             </div>
         </div>
-<div class="col-md-4">
+<div class="col-md-5">
             <div class="card" >
                 <div class="card-body">
                     <h5 class="card-title">{{this.state.users[userId()].name+"'s"}} Friends</h5>
                     <ul class="list-group">
                         <li class="list-group-item" v-for= "x in state.friends" :key="x.id">{{state.users[x].name}} <a @click.prevent="removeFriend(x)" id="friendbuttons" class="btn btn-sm btn-danger">Remove Friend</a> 
-                                                                                                                    <a @click.prevent="viewProfile(x)" id="friendbuttons" class="btn btn-sm btn-success">View Profile</a> </li>
+                                                                                                                     <router-link @click.native="viewProfile(x)" class="btn btn-sm btn-success" :to="'userProfile/'+ x" id="friendbuttons" style="color: black">View Profile </router-link></li>
                     </ul>
                 </div>
             </div>
@@ -43,12 +43,14 @@ export default {
                 userid: null,
                 users: [],
                 completedExercises: [],
-                friends: []
+                friends: [],
+                profileView: null
             }
         }
     },
     created(){
         setInterval(this.refresh, 500);
+        //this.$http.get('http://localhost:8080/userProfile/'+this.state.profileView)
         
     },
     methods: {
@@ -82,8 +84,8 @@ export default {
             //console.log(api.userId + " removed " + id)
         },
         viewProfile(id){
-            let x = api.viewProfile(id);
-            console.log(x)
+            console.log("api profileView set to "+id)  
+            api.setProfileView(id);
         },
         userId: ()=> api.userId
     }

@@ -32,7 +32,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "profile" */ './views/Tools.vue')
     },
     {
-      path: '/userProfile',
+      path: '/userProfile/:id',
       name: 'userProfile',
       component: () => import(/* webpackChunkName: "profile" */ './views/userProfile.vue')
     }

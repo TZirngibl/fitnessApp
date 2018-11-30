@@ -1,12 +1,18 @@
 const api_root = "http://localhost:80/fitnessApp";
 export let userId = null;
+export let profileView = null;
 
 export function GetState(){
     return myFetch(api_root + "/").then(x => {
         return x;
     });
 }
-
+export function getProfileView(){
+    return profileView;
+}
+export function setProfileView(id){
+    profileView = id;
+}
 export function GetMyExercises(id){
     return(myFetch(api_root + "/users/"+id+"/completedExercises"))
 }
@@ -38,9 +44,9 @@ export function addWorkout(id,name,reps,weight){
                                                         }))
 }
 
-export function Login(name){
-    return myFetch(api_root + "/users",{name})
-    .then(x=> userId = x.id)      
+export function Login(name, fbid, access_token){
+    return myFetch(api_root + `/users`, { name, fbid, access_token })
+    .then(x=> userId = x.id);
 }
 
 

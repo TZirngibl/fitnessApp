@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a @click.prevent="login" id="logn" class="btn btn-sm btn-primary" :class="{disabled: userid !== null}">Login</a>
+                <a @click.prevent="login()" id="logn" class="btn btn-sm btn-primary" :class="{disabled: userid !== null}">Login</a>
             </li>
             <li class="nav-item">
                 <router-link class="nav-link" exact-active-class="active" to="/">Home</router-link>
@@ -26,7 +26,7 @@
 </style>
 <script>
 import * as api from "@/services/api_access" 
-//import * as fb from "@/services/facebook"
+import * as fb from "@/services/facebook"
 export default {
     data(){
         return {
@@ -35,9 +35,9 @@ export default {
     },
     methods: {
         login(){
-            //fb.FBLogin();
-            api.Login(prompt("Enter your name"))
-            .then(x => this.userid = x.id)
+            fb.FBLogin()
+            //api.Login(prompt("Enter your name"))
+            //.then(x => this.userid = x.id)
         },
         userId(){
             let x = api.userId;

@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const express = require('express');
-const {Game, Workout, User} = require('./model');
+const {Game, Workout} = require('./model');
 const app = express.Router();
 app.use(express.json());
 
@@ -38,7 +38,6 @@ app.get('/users/:id/friends', (req,res) => {
 app.post('/users/:id/addFriend/:friendsId', (req,res) => {
     const user = game.users.find(c => c.id === parseInt(req.params.id));
     if (!user) return res.status(404).send('404: The user with the given id was not found.');
-
     user.friends.push(req.params.friendsId)
     res.send(req.params.friendsId + "added as a friend")
 })
@@ -82,14 +81,11 @@ app.get('/users/:id', (req,res) => {
 
 //CREATE 
 app.post('/users', (req,res) => {
-
     //Joi Validation
-    const { error } = validateUser(req.body);
-    if (error) return res.status(400).send(error.details[0].message)
+    //const { error } = validateUser(req.body);
+    //if (error) return res.status(400).send(error.details[0].message)
 
-    let user = new User(req.body.name, game.users.length)
-
-    game.users.push(user);
+    let user = game.login(req.body.name, req.body.fbid, req.body.access_token)
     res.send(user);
 });
 
@@ -136,4 +132,4 @@ function validateUser(user) {
 }
 
 
-module.exports = app;
+module.exports = app,profileView;

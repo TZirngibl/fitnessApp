@@ -1,30 +1,28 @@
 <template>
 <div>
-    <h1>{{this.state.users[userId()].name+"'s"}} Profile  USERPROFILE PAGE</h1>
+    <h1>{{this.state.users[profileView()].name+"'s"}} Profile  USERPROFILE PAGE</h1>
     <div class="row">
 <div class="col-md-4">
             <div class="card" >
                 <div class="card-body">
-                    <h5 class="card-title">{{this.state.users[userId()].name+"'s"}} Friends</h5>
+                     <h5 class="card-title">{{this.state.users[profileView()].name+"'s"}} Friends</h5>
                     <ul class="list-group">
-                        <li class="list-group-item" v-for= "x in state.friends" :key="x.id">{{state.users[x].name}} <a @click.prevent="removeFriend(x)" id="friendbuttons" class="btn btn-sm btn-danger">Remove Friend</a> </li>
+                        <li class="list-group-item" v-for= "x in this.state.users[profileView()].friends" :key="x.id">{{state.users[x].name}} </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card" >
+           <div class="card" >
                 <div class="card-body">
-                    <h5 class="card-title">Add New Workout</h5>
-                    Workout Name<input class="form-control" type="text" placeholder="Enter Workout Name" id="workoutName">
-                    Workout Reps<input class="form-control" type="number" placeholder="Enter Workout Reps" id="workoutReps">
-                    Workout Weight<input class="form-control" type="number" placeholder="Enter Workout Weight" id="workoutWeight"><br>
-                    <a @click.prevent="addWorkout__" class="btn btn-primary">Add Workout</a>
+                     <h5 class="card-title">{{this.state.users[profileView()].name+"'s"}} Completed Exercises</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for= "x in this.state.users[profileView()].completedExercises" :key="x.id">  <b> {{x.name}} </b>
+                                                                                                                                        {{x.reps}} Reps
+                                                                                                                                        {{x.weight}} Lbs</li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-           
         </div>
     </div>
 </div>
@@ -45,7 +43,8 @@ export default {
                 userid: null,
                 users: [],
                 completedExercises: [],
-                friends: []
+                friends: [],
+                profileView: null
             }
         }
     },
@@ -63,13 +62,14 @@ export default {
                 api.GetState()
                 .then(x=> this.state.friends = x[id].friends)
                 //.then( ()=> api.GetMyExercises(api.userid).then(x=> this.completedExercises = x) )
-               }  
+               }
             },  
         getExercises(id){
             let x = api.GetMyExercises(id)
             console.log(x)
             return x
         },
+        profileView: ()=> api.getProfileView(),
         userId: ()=>  api.GetUserId()
     }
 }

@@ -68,6 +68,7 @@
 
 <script>
 import * as api from '@/services/api_access';
+let lastBMI = null;
 export default {
     data(){
         return {
@@ -108,7 +109,12 @@ export default {
             let x = weight / height;
             let y = x * 703;
             document.getElementById("finalBMI").innerHTML =  +y.toFixed(2);
+            lastBMI = +y.toFixed(2);
             },
+        addBMI(){
+            let BMI = lastBMI;
+            console.log(BMI);
+        },
         userId: ()=> api.userId
     }
 }

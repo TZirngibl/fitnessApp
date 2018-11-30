@@ -1,17 +1,15 @@
-<template>
-  <div class="home">
-      BMI Progress Chart Will Eventually Be Here
-    </div>
-  </template>
-
 <style>
 </style>
 
 <script>
 import * as api from '@/services/api_access';
+import Chart from 'chart.js';
+import ChartData from '../services/chart-data.js';
+
 export default {
     data(){
         return {
+            ChartData: ChartData,
             state: {
                 userid: null,
                 users: [],
@@ -37,8 +35,24 @@ export default {
                 //.then( ()=> api.GetMyExercises(api.userid).then(x=> this.completedExercises = x) )
                }  
             },
+        createChart(chartId, chartData) {
+                const ctx = document.getElementById(chartId);
+                const myChart = new Chart(ctx, {
+                type: chartData.type,
+                data: chartData.data,
+                options: chartData.options,
+                });
+            },
         userId: ()=> api.userId
+    },
+    mounted(){
+        this.createChart('bmi-chart', this.ChartData)
     }
 }
-
 </script>
+
+<template>
+    <div class="container">
+        <canvas id="bmi-chart" width="800" height="400"></canvas>
+    </div>
+</template>
