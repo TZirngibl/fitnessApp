@@ -132,4 +132,4 @@ function validateUser(user) {
 }
 
 
-module.exports = app,profileView;
+module.exports = app;

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <h1>{{this.state.users[profileView()].name+"'s"}} Profile  USERPROFILE PAGE</h1>
+    <h1>{{this.state.users[profileView()].name+"'s"}} Profile</h1>
     <div class="row">
 <div class="col-md-4">
             <div class="card" >

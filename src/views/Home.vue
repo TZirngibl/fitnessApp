@@ -5,7 +5,7 @@
     <div class="col-md-4">
             <div class="card" >
                 <div class="card-body">
-                    <h5 class="card-title">Suggested Friends(Online Users)</h5>
+                    <h5 class="card-title">Suggested Friends</h5>
                     <ul class="list-group">
                         <li class="list-group-item" v-for= "user in state.users" :key="user.id">{{user.name}} <a @click.prevent="addFriend(user.id)" id="friendbuttons" class="btn btn-sm btn-primary">Add Friend</a> </li>
                     </ul>
