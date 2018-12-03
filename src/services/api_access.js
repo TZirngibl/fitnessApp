@@ -13,6 +13,14 @@ export function getProfileView(){
 export function setProfileView(id){
     profileView = id;
 }
+export function setuserId(id){
+    userId = id;
+}
+export function getAT(id){
+    return(myFetch(api_root + "/users/"+id+"/accesstoken").then(x => {
+        return x;
+    }))
+}
 export function GetMyExercises(id){
     return(myFetch(api_root + "/users/"+id+"/completedExercises"))
 }

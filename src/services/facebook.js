@@ -28,7 +28,13 @@
        FB.login(response => statusChangeCallback(response),
        {scope: 'public_profile,email'});
    }
-
+   export function FBLogout(){
+    FB.getLoginStatus(x=>{
+        FB.logout(function(response) {
+            api.setuserId(null);
+        });        
+    });
+   }
    function statusChangeCallback(response){
        FB.api("/me", me => {
            console.log(response);

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>{{this.state.users[userId()].name+"'s"}} Timeline: </h1>
+    <h1>Welcome to FitnessBuddy</h1>
     <div class="row" >
     <div class="col-md-4">
             <div class="card" >
@@ -15,7 +15,7 @@
 <div class="col-md-5">
             <div class="card" >
                 <div class="card-body">
-                    <h5 class="card-title">{{this.state.users[userId()].name+"'s"}} Friends</h5>
+                    <h5 class="card-title">Your Friends</h5>
                     <ul class="list-group">
                         <li class="list-group-item" v-for= "x in state.friends" :key="x.id">{{state.users[x].name}} <a @click.prevent="removeFriend(x)" id="friendbuttons" class="btn btn-sm btn-danger">Remove Friend</a> 
                                                                                                                      <router-link @click.native="viewProfile(x)" class="btn btn-sm btn-success" :to="'userProfile/'+ x" id="friendbuttons" style="color: black">View Profile </router-link></li>
@@ -48,26 +48,27 @@ export default {
             }
         }
     },
-    created(){
-        setInterval(this.refresh, 500);
-        //this.$http.get('http://localhost:8080/userProfile/'+this.state.profileView)
-        
+    mounted(){
+       setInterval(this.refresh, 1000)
     },
     methods: {
         refresh(){
             let id = api.userId
+            this.state.userid = id;
             if(id !== null){
                 api.GetState()
-                .then(x=> this.state.users = x)
-                api.GetState()
-                .then(x=> this.state.completedExercises = x[id].completedExercises)
-                api.GetState()
-                .then(x=> this.state.friends = x[id].friends)
-               }  
+                .then(x=> {
+                    this.state.users = x;
+                    this.state.completedExercises = x[id].completedExercises
+                    this.state.friends = x[id].friends
+                })
+               }else{
+                   this.state = {};
+               } 
             },  
         getExercises(id){
             let x = api.GetMyExercises(id)
-            console.log(x)
+            //console.log(x)
             return x
         },
         getFriends(id){
@@ -84,7 +85,7 @@ export default {
             //console.log(api.userId + " removed " + id)
         },
         viewProfile(id){
-            console.log("api profileView set to "+id)  
+            //console.log("api profileView set to "+id)  
             api.setProfileView(id);
         },
         userId: ()=> api.userId

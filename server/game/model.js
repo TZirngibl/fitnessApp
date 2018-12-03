@@ -19,6 +19,7 @@ class User{
         this.name = name;
         this.fbid = fbid;
         this.friends = [];
+        this.access_token = null;
         this.completedExercises = [];
         this.bmiHistory = [];
     }

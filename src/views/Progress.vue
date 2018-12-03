@@ -18,23 +18,7 @@ export default {
             }
         }
     },
-    created(){
-        setInterval(this.refresh, 500);
-        
-    },
     methods: {
-        refresh(){
-            let id = api.userId
-            if(id !== null){
-                api.GetState()
-                .then(x=> this.state.users = x)
-                api.GetState()
-                .then(x=> this.state.completedExercises = x[id].completedExercises)
-                api.GetState()
-                .then(x=> this.state.friends = x[id].friends)
-                //.then( ()=> api.GetMyExercises(api.userid).then(x=> this.completedExercises = x) )
-               }  
-            },
         createChart(chartId, chartData) {
                 const ctx = document.getElementById(chartId);
                 const myChart = new Chart(ctx, {
@@ -53,6 +37,7 @@ export default {
 
 <template>
     <div class="container">
+        <h3>Coming Soon</h3>
         <canvas id="bmi-chart" width="800" height="400"></canvas>
     </div>
 </template>

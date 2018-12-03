@@ -67,6 +67,14 @@ app.get('/', (req,res) => {
     res.send(game.users)
 })
 
+//Get access token
+app.get('/users/:id/accesstoken', (req,res) => {
+    const user = game.users.find(c => c.id === parseInt(req.params.id));
+    if (!user) return res.status(404).send('404: The user with the given id was not found.');
+
+    res.send(game.users[user.id].access_token);
+});
+
 //GET ALL USERS AND WORKOUTS
 app.get('/users', (req,res) => {
     res.send(game.users);

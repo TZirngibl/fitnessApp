@@ -9,7 +9,7 @@
                     <div class="form-inline"><label for="userWeight">Enter Weight:</label> <input class="form-control" style="margin-left: 5px" type="number" placeholder="Weight in Lbs" id="userWeight"/></div><br>
                     <div id="bmiline"><b>Your BMI:    </b><span id="finalBMI"></span></div><br>
                     <a @click.prevent="calculateBMI()" class="btn btn-primary" id="bmicalc"> Calculate BMI</a>
-                    <a @click.prevent="addBMI()"  class="btn btn-success" id="addtc"> Add to Progress Chart </a>
+                    <a @click.prevent="addBMI()"  class="btn btn-success disabled" id="addtc"> Add to Progress Chart</a>
                     
                 </div>
             </div>
@@ -80,23 +80,7 @@ export default {
             }
         }
     },
-    created(){
-        setInterval(this.refresh, 500);
-        
-    },
     methods: {
-        refresh(){
-            let id = api.userId
-            if(id !== null){
-                api.GetState()
-                .then(x=> this.state.users = x)
-                api.GetState()
-                .then(x=> this.state.completedExercises = x[id].completedExercises)
-                api.GetState()
-                .then(x=> this.state.friends = x[id].friends)
-                //.then( ()=> api.GetMyExercises(api.userid).then(x=> this.completedExercises = x) )
-               }  
-            },
         calculateBMI() {
             let heightft = document.getElementById("userHeightFt").value;
             let heightin = document.getElementById("userHeightIn").value;
@@ -111,6 +95,7 @@ export default {
             document.getElementById("finalBMI").innerHTML =  +y.toFixed(2);
             lastBMI = +y.toFixed(2);
             },
+            //coming soon
         addBMI(){
             let BMI = lastBMI;
             console.log(BMI);

@@ -17,7 +17,7 @@
                 <div class="card-body">
                      <h5 class="card-title">{{this.state.users[profileView()].name+"'s"}} Completed Exercises</h5>
                     <ul class="list-group">
-                        <li class="list-group-item" v-for= "x in this.state.users[profileView()].completedExercises" :key="x.id">  <b> {{x.name}} </b>
+                        <li id="doneWorkout" class="list-group-item" v-for= "x in this.state.users[profileView()].completedExercises" :key="x.id">  <b> {{x.name}} </b>
                                                                                                                                         {{x.reps}} Reps
                                                                                                                                         {{x.weight}} Lbs</li>
                     </ul>
@@ -31,6 +31,9 @@
 <style>
 #friendbuttons{
     float: right;
+}
+#doneWorkout{
+    background-color: lightgreen;
 }
 </style>
 
@@ -48,21 +51,22 @@ export default {
             }
         }
     },
-    created(){
-        setInterval(this.refresh, 500);
+    mounted(){
+        setInterval(this.refresh, 1000);
     },
     methods: {
         refresh(){
             let id = api.GetUserId()
             if(id !== null){
                 api.GetState()
-                .then(x=> this.state.users = x)
-                api.GetState()
-                .then(x=> this.state.completedExercises = x[id].completedExercises)
-                api.GetState()
-                .then(x=> this.state.friends = x[id].friends)
-                //.then( ()=> api.GetMyExercises(api.userid).then(x=> this.completedExercises = x) )
-               }
+                .then(x=> {
+                    this.state.users = x;
+                    this.state.completedExercises = x[id].completedExercises
+                    this.state.friends = x[id].friends
+                })
+               }else{
+                   this.state = {};
+               } 
             },  
         getExercises(id){
             let x = api.GetMyExercises(id)

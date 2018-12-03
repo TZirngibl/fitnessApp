@@ -13,6 +13,18 @@
             </div>
         </div>
         <div class="col-md-4">
+             <div class="card" >
+                <div class="card-body">
+                    <h5 class="card-title">Your Completed Workouts</h5>
+                    <ul class="list-group">
+                        <li id="doneWorkout" class="list-group-item" v-for= "x in state.completedExercises" :key="x.name"><b>{{x.name}}</b>
+                                                                                                         <br> {{x.reps}} Reps
+                                                                                                         <br> {{x.weight}} Lbs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
             <div class="card" >
                 <div class="card-body">
                     <h5 class="card-title">Add New Workout</h5>
@@ -23,21 +35,6 @@
                 </div>
             </div>
         </div>
-                <div class="col-md-4">
-             <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">Your Completed Workouts</h5>
-                    <ul class="list-group">
-                        <li class="list-group-item" v-for= "x in state.completedExercises" :key="x.name"><b>{{x.name}}</b>
-                                                                                                         <br> {{x.reps}} Reps
-                                                                                                         <br> {{x.weight}} Lbs</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-           
-        </div>
     </div>
 </div>
 </template>
@@ -45,6 +42,9 @@
 <style>
 #friendbuttons{
     float: right;
+}
+#doneWorkout{
+    background-color: lightgreen;
 }
 </style>
 
@@ -61,22 +61,23 @@ export default {
             }
         }
     },
-    created(){
-        setInterval(this.refresh, 500);
-        
+    mounted(){
+        setInterval(this.refresh , 1000)
     },
     methods: {
         refresh(){
-            let id = api.GetUserId()
+            let id = api.userId
+            this.state.userid = id;
             if(id !== null){
                 api.GetState()
-                .then(x=> this.state.users = x)
-                api.GetState()
-                .then(x=> this.state.completedExercises = x[id].completedExercises)
-                api.GetState()
-                .then(x=> this.state.friends = x[id].friends)
-                //.then( ()=> api.GetMyExercises(api.userid).then(x=> this.completedExercises = x) )
-               }  
+                .then(x=> {
+                    this.state.users = x;
+                    this.state.completedExercises = x[id].completedExercises
+                    this.state.friends = x[id].friends
+                })
+                }else{
+                   this.state = {};
+               } 
             },  
         addWorkout__(){
             let id = api.GetUserId()
@@ -84,6 +85,7 @@ export default {
             let wReps = document.getElementById("workoutReps").value;
             let wWeight = document.getElementById("workoutWeight").value;
             api.addWorkout(id,wName,wReps,wWeight)
+            alert("Great Job!");
         },
         getExercises(id){
             let x = api.GetMyExercises(id)

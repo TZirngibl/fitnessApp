@@ -2,10 +2,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a @click.prevent="login()" id="logn" class="btn btn-sm btn-primary" :class="{disabled: userid !== null}">Login</a>
+                <router-link @click.native="login" id="logn" class="btn btn-sm btn-primary" :to="'/home'" :class="{disabled: userId() !== null}">Login</router-link>
             </li>
             <li class="nav-item">
-                <router-link class="nav-link" exact-active-class="active" to="/">Home</router-link>
+                <router-link class="nav-link" exact-active-class="active" to="/home">Home</router-link>
             </li>
             <li class="nav-item">
                 <router-link class="nav-link" exact-active-class="active" to="/tools">Tools</router-link>
@@ -16,12 +16,19 @@
             <li class="nav-item">
                 <router-link class="nav-link" exact-active-class="active" to="/profile">Profile</router-link>
             </li>
+            <li class="nav-item">
+                <router-link @click.native="logout" id="logout" class="btn btn-sm btn-danger" :to="'/'">Log Out</router-link>
+            </li>
         </ul>
     </nav>
 </template>
 <style>
 #logn{
     vertical-align: -webkit-baseline-middle;
+}
+#logout{
+    vertical-align: -webkit-baseline-middle;
+    margin-left: 1000%;
 }
 </style>
 <script>
@@ -36,12 +43,15 @@ export default {
     methods: {
         login(){
             fb.FBLogin()
-            //api.Login(prompt("Enter your name"))
-            //.then(x => this.userid = x.id)
         },
         userId(){
             let x = api.userId;
             return x;
+        },
+        logout(){
+            //let x = api.getAT(this.userid)
+            fb.FBLogout();
+            alert("You have logged out!");
         }
 
     }
